@@ -33,7 +33,7 @@ index = 1           # which coordinate of the solution to plot
 # Numerical Euler, RK4 and RK3 solvers
 
 solver4 = ode_solver.RungeKutta4(f)
-solver3 =ode_solver.RungeKutta3(f)
+solver3 = ode_solver.RungeKutta3(f)
 solver43 = ode_solver.RungeKutta43(f)
 
 
@@ -65,6 +65,8 @@ plt.xlabel('x (# of Rabbits)')
 plt.ylabel('y (# of Foxes)')
 plt.show()
 H_t = [round(H(y_RK43[i,0],y_RK43[i,1]),4) for i in range(len(t43))]
+H_0 = H(*Y0)
+H_t = np.abs((H_t / H_0) - 1)
 plt.plot(t43,H_t,label = 'H(x,y)')
 plt.legend()
 plt.show()

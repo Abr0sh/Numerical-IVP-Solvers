@@ -4,8 +4,12 @@ import matplotlib.pyplot as plt
 import ode_solver
 from tqdm import tqdm
 class LinearIVP:
-    # This is a help class that contains functions that are useful in the study of linear 
-    # initial value problems of the form dy/dt = A y
+    """
+    This is a help class that contains functions that are useful
+    in the study of linear 
+
+    initial value problems of the form dy/dt = A y
+    """
     def __init__(self,A):
         self.A = A
     def set_initial_conditions(self,y0):

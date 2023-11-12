@@ -1,12 +1,12 @@
 import numpy as np
 from tqdm import tqdm
 class ODE_Solver:
-    """ODESOLVER Mother class
+    """
+    ODESOLVER Mother class
     
     ODE:
     dy/dt = f(t,y),
     y(t=0)= y0 initial condition
-    
     """
 
     def __init__(self,f):
@@ -58,7 +58,7 @@ class RungeKutta4(ODE_Solver):
     def advance(self):
         y,f,i,t = self.y, self.f, self.i ,self.t
         dt = t[i+1]-t[i]
-        dt2 = dt/2
+        dt2 = dt * 0.5
         K1 = dt*f(t[i],y[i, :])
         K2 = dt*f(t[i]+dt2 ,y[i, :]+ 0.5*K1)
         K3 = dt*f(t[i]+dt2 ,y[i, :]+ 0.5*K2)
@@ -77,6 +77,7 @@ class RungeKutta3(ODE_Solver):
         K3 = dt*f(t[i]+dt2 ,y[i, :]-K1+ 2*K2)
         return y[i, :] + (1/6)*(K1 +4 *K2 +K3 )
     def name(self): return "Runge Kutta 4 method"
+
 class RungeKutta43(ODE_Solver):
 
     def solve(self,t_0,T,Tol):
@@ -84,8 +85,10 @@ class RungeKutta43(ODE_Solver):
         self.t = [t_0]
         self.T = T
 
-        self.l = np.array([self.TOL]) # initiate the local errors
-        self.h = [self.TOL**(1/4)*np.abs(self.T-t_0)/(100*(1+np.linalg.norm(self.f(t_0,self.Y0))))] # initiate the first step size
+        # initiate the local errors
+        self.l = np.array([self.TOL])
+        # initiate the first step size
+        self.h = [self.TOL**(0.25)*np.abs(self.T-t_0)/(100*(1+np.linalg.norm(self.f(t_0,self.Y0))))]
         self.y = np.zeros((1, self.dimension))
         self.y[0, :] = self.Y0
 
@@ -99,12 +102,13 @@ class RungeKutta43(ODE_Solver):
             self.i = self.i+1
         
         # This block makes sure the last step ends on the specified end point T
-        self.i = self.i -1
+        self.i = self.i - 1
         self.t = self.t[:-1]
         self.y = self.y[:-1]
         self.h[i]=self.T-self.t[i]
         self.y = np.concatenate((self.y,np.array([self.advance()])),axis=0)
         self.t.append(self.T)
+
         return self.y, self.t 
        
     def advance(self):
@@ -122,5 +126,3 @@ class RungeKutta43(ODE_Solver):
         self.h.append(h_new)
         
         return y_new
-    
-        

@@ -50,7 +50,7 @@ livp = LIVP.LinearIVP(A)
 livp.set_initial_conditions(Y0)
 y_exact=livp.exact_solution(t_grid,Y0) # evaluates the exact solution (e^(At)) at points t in t_grid
 f = livp.Lin_IVP_function() # returns a function f(t,u) = Au
- 
+
 
 # Numerical Euler, RK4 and RK3 solvers
 solverE = ode_solver.Euler(f)
